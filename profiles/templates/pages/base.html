@@ -1,0 +1,50 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Student Achievements{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <script defer src="{% static 'js/main.js' %}"></script>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="{% url 'home' %}">Achieve<span>Hub</span></a>
+      <nav class="links">
+        <a href="{% url 'student_list' %}">Public Profiles</a>
+        <a href="{% url 'leaderboard' %}">Leaderboard</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'profile_edit' %}">Edit Profile</a>
+          <form action="{% url 'logout' %}" method="post" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn-link">Logout</button>
+</form>
+
+        {% else %}
+          <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <div class="toast-wrap">
+        {% for message in messages %}
+          <div class="toast">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© {{ now|date:"Y" }} AchieveHub • Built with Django</p>
+    </div>
+  </footer>
+</body>
+</html>

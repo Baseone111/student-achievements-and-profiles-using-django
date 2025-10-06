@@ -1,0 +1,45 @@
+{% extends 'pages/base.html' %}
+{% block title %}Leaderboard{% endblock %}
+{% block content %}
+<h2 class="page-title">Leaderboard</h2>
+
+<div class="toolbar">
+  <form method="get">
+    <label>Sort by:</label>
+    <select name="by" onchange="this.form.submit()">
+      {% with request.GET.by as by %}
+      <option value="overall" {% if by == 'overall' or not by %}selected{% endif %}>Overall</option>
+      <option value="projects" {% if by == 'projects' %}selected{% endif %}>Projects</option>
+      <option value="skills" {% if by == 'skills' %}selected{% endif %}>Skills</option>
+      <option value="awards" {% if by == 'awards' %}selected{% endif %}>Awards</option>
+      <option value="endorsements" {% if by == 'endorsements' %}selected{% endif %}>Endorsements</option>
+      {% endwith %}
+    </select>
+  </form>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Skills</th>
+      <th>Projects</th>
+      <th>Awards</th>
+      <th>Endorsements</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+      <tr>
+        <td><a href="{% url 'student_detail' s.id %}">@{{ s.user.username }}</a></td>
+        <td>{{ s.num_skills }}</td>
+        <td>{{ s.num_projects }}</td>
+        <td>{{ s.num_awards }}</td>
+        <td>{{ s.total_endorsements }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="muted">No public students yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

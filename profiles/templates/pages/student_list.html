@@ -1,0 +1,21 @@
+{% extends 'pages/base.html' %}
+{% block title %}Public Profiles{% endblock %}
+{% block content %}
+<h2 class="page-title">Public Profiles</h2>
+<div class="grid">
+  {% for s in students %}
+  <a class="card hover" href="{% url 'student_detail' s.id %}">
+    <h3>@{{ s.user.username }}</h3>
+    <p class="muted">{{ s.bio|default:"No bio yet."|truncatechars:120 }}</p>
+    <div class="stats">
+      <span>Skills: {{ s.num_skills }}</span>
+      <span>Projects: {{ s.num_projects }}</span>
+      <span>Awards: {{ s.num_awards }}</span>
+      <span>Endorsements: {{ s.total_endorsements }}</span>
+    </div>
+  </a>
+  {% empty %}
+  <p>No public profiles yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

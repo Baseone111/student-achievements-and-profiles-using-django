@@ -1,0 +1,20 @@
+{% extends "pages/base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Admin Dashboard</h2>
+<div class="grid two">
+  <section class="card">
+    <h3>Summary</h3>
+    <p>Total students: {{ total_students }}</p>
+    <p>Public profiles: {{ total_public }}</p>
+  </section>
+
+  <section class="card">
+    <h3>Quick Actions</h3>
+    <ul>
+      <li><a href="{% url 'adminpanel:student_list' %}">View all students</a></li>
+    </ul>
+  </section>
+</div>
+{% endblock %}

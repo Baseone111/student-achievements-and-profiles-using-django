@@ -1,0 +1,53 @@
+{% extends 'pages/base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<h2 class="page-title">Edit My Profile</h2>
+
+<div class="grid two">
+  <section class="card">
+    <h3>About & Visibility</h3>
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ sform.as_p }}
+      <button class="btn">Save</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Add Skill</h3>
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ skform.as_p }}
+      <button class="btn">Add Skill</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Add Project</h3>
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ prform.as_p }}
+      <button class="btn">Add Project</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Add Award</h3>
+    <form method="post" class="form">
+      {% csrf_token %}
+      {{ awform.as_p }}
+      <button class="btn">Add Award</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Add Portfolio Item</h3>
+    <form method="post" enctype="multipart/form-data" class="form">
+      {% csrf_token %}
+      {{ pform.as_p }}
+      <button class="btn">Add Portfolio</button>
+    </form>
+    <p class="muted small">Hint: you can upload a file or screenshot, and/or provide a URL (GitHub, PDF link, etc.).</p>
+  </section>
+</div>
+{% endblock %}

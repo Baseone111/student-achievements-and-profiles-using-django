@@ -1,0 +1,28 @@
+{% extends "pages/base.html" %}
+{% block title %}Students — Admin{% endblock %}
+
+{% block content %}
+<h2 class="page-title">All Students</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Public?</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+      <tr>
+        <td>{{ s.user.username }}</td>
+        <td>{{ s.user.email|default:"—" }}</td>
+        <td>{% if s.is_public %}Yes{% else %}No{% endif %}</td>
+        <td><a href="{% url 'adminpanel:student_detail' s.pk %}">View</a></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4">No students yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

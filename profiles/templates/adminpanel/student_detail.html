@@ -1,0 +1,61 @@
+{% extends "pages/base.html" %}
+{% block title %}{{ student.user.username }} — Admin View{% endblock %}
+
+{% block content %}
+<h2 class="page-title">@{{ student.user.username }} (Admin view)</h2>
+
+<section class="card">
+  <h3>Profile</h3>
+  <p><strong>Username:</strong> {{ student.user.username }}</p>
+  <p><strong>Email:</strong> {{ student.user.email }}</p>
+  <p><strong>Bio:</strong> {{ student.bio|default:"No bio" }}</p>
+  <p><strong>Public:</strong> {{ student.is_public }}</p>
+</section>
+
+<div class="grid two">
+  <section class="card">
+    <h3>Skills</h3>
+    <ul class="list">
+      {% for sk in student.skills.all %}
+      <li>{{ sk.name }} — endorsements: {{ sk.endorsement_count }}</li>
+      {% empty %}<li class="muted">No skills</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Projects</h3>
+    <ul class="list">
+      {% for p in student.projects.all %}
+      <li><strong>{{ p.title }}</strong><div class="muted">{{ p.description }}</div></li>
+      {% empty %}<li class="muted">No projects</li>{% endfor %}
+    </ul>
+  </section>
+</div>
+
+<div class="grid two">
+  <section class="card">
+    <h3>Awards</h3>
+    <ul class="list">
+      {% for a in student.awards.all %}
+        <li><strong>{{ a.title }}</strong><div class="muted">{{ a.description }}</div></li>
+      {% empty %}<li class="muted">No awards</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Portfolio</h3>
+    <ul class="list">
+      {% for item in student.portfolio.all %}
+      <li>
+        <strong>{{ item.title }}</strong>
+        <div class="muted">
+          {% if item.url %}<a href="{{ item.url }}" target="_blank">Link</a>{% endif %}
+          {% if item.file %}<a href="{{ item.file.url }}" target="_blank">File</a>{% endif %}
+        </div>
+      </li>
+      {% empty %}<li class="muted">No portfolio items</li>{% endfor %}
+    </ul>
+  </section>
+</div>
+
+{% endblock %}

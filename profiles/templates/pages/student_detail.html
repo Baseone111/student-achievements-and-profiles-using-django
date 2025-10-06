@@ -1,0 +1,73 @@
+{% extends 'pages/base.html' %}
+{% block title %}@{{ student_obj.user.username }} • Profile{% endblock %}
+{% block content %}
+<div class="profile-header">
+  <div>
+    <h2>@{{ student_obj.user.username }}</h2>
+    <p class="muted">{{ student_obj.bio|default:"No bio yet." }}</p>
+    <span class="badge {% if student_obj.is_public %}green{% else %}gray{% endif %}">
+      {% if student_obj.is_public %}Public{% else %}Private{% endif %}
+    </span>
+  </div>
+</div>
+
+<div class="grid two">
+  <section class="card">
+    <h3>Skills</h3>
+    <ul class="list">
+      {% for sk in student_obj.skills.all %}
+      <li class="list-row">
+        <span>{{ sk.name }}</span>
+        <button class="btn tiny endorse-btn" data-skill-id="{{ sk.id }}">
+          Endorse (<span class="endorse-count" data-skill-id="{{ sk.id }}">{{ sk.endorsement_count }}</span>)
+        </button>
+      </li>
+      {% empty %}<li class="muted">No skills yet.</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Projects</h3>
+    <ul class="list">
+      {% for p in student_obj.projects.all %}
+      <li class="list-row">
+        <strong>{{ p.title }}</strong>
+        <p class="muted">{{ p.description|default:"" }}</p>
+      </li>
+      {% empty %}<li class="muted">No projects yet.</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Awards</h3>
+    <ul class="list">
+      {% for a in student_obj.awards.all %}
+      <li class="list-row">
+        <strong>{{ a.title }}</strong>
+        <p class="muted">{{ a.description|default:"" }}</p>
+      </li>
+      {% empty %}<li class="muted">No awards yet.</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Portfolio</h3>
+    <ul class="list">
+      {% for item in student_obj.portfolio.all %}
+      <li class="list-row">
+        <div>
+          <strong>{{ item.title }}</strong>
+          <div class="muted">
+            {% if item.url %}<a href="{{ item.url }}" target="_blank" rel="noopener">View Link</a>{% endif %}
+            {% if item.file %}<a href="{{ item.file.url }}" target="_blank">Download File</a>{% endif %}
+          </div>
+        </div>
+        {% if item.screenshot %}
+          <img class="thumb" src="{{ item.screenshot.url }}" alt="screenshot">
+        {% endif %}
+      </li>
+      {% empty %}<li class="muted">No portfolio items yet.</li>{% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}
