@@ -1,0 +1,9 @@
+{% if user.is_authenticated and user.is_staff %}
+  <a href="{% url 'profiles:delete_student' student.id %}" class="btn btn-danger">Delete</a>
+  <a href="{% url 'profiles:endorse_any_student' skill.id %}" class="btn btn-success">Endorse</a>
+{% else %}
+  <!-- Normal users can only endorse public skills -->
+  {% if student.is_public %}
+    <a href="{% url 'profiles:endorse_skill' skill.id %}" class="btn btn-success">Endorse</a>
+  {% endif %}
+{% endif %}

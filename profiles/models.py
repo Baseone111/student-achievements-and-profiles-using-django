@@ -1,7 +1,5 @@
 from django.db import models
-
 from django.conf import settings
-from django.db import models
 from django.db.models import UniqueConstraint
 
 User = settings.AUTH_USER_MODEL
@@ -9,7 +7,9 @@ User = settings.AUTH_USER_MODEL
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
     bio = models.TextField(blank=True)
-    is_public = models.BooleanField(default=True)  # Public/Private toggle
+    is_public = models.BooleanField(default=True)
+    # Optional: distinguish in-app admin users
+    # is_admin_user = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.get_username()
@@ -52,12 +52,8 @@ class PortfolioItem(models.Model):
         return f'{self.title} - {self.student}'
 
 class Endorsement(models.Model):
-    """
-    Links a browser session (or optionally a user) to a Skill.
-    Ensures one endorsement per skill per session_key.
-    """
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='endorsements')
-    session_key = models.CharField(max_length=40)  # browser-session based dedupe
+    session_key = models.CharField(max_length=40)
     endorser = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
@@ -68,5 +64,3 @@ class Endorsement(models.Model):
     def __str__(self):
         who = self.endorser or self.session_key
         return f'{who} -> {self.skill}'
-
-# Create your models here.
